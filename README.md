@@ -123,29 +123,30 @@
 # （1）Python3 标准答案（每一行都有中文注释）
 
 ```python
-from collections import deque                 # 导入双端队列工具
+from collections import deque   # 导入双端队列工具
 
 class Solution:
     def maxSlidingWindow(self, nums, k):
-        q = deque()                            # 创建一个空的双端队列，用来存“下标”。左边是队头q[0]，右边是队尾q[-1]。
-        res = []                               # 创建结果列表，用来存每个窗口的最大值
+        q = deque()    # 创建一个空的双端队列，用来存“下标”。左边是队头q[0]，右边是队尾q[-1]。
+        res = []       # 创建结果列表，用来存每个窗口的最大值
 
-        for i in range(len(nums)):             # i 从 0 遍历到 nums 的最后一个下标
+        for i in range(len(nums)):    # i 从 0 遍历到 nums 的最后一个下标
 
             # 如果队头的下标已经不在窗口范围内，弹出
             if q and q[0] <= i - k:
                 q.popleft() # 从左边删
 
             # 如果当前数比队尾对应的数大，队尾出队
-            while q and nums[q[-1]] < nums[i]: # 这句代码的真实含义是：只要新来的数更大，就把后面所有比它小的都踢掉
+            while q and nums[q[-1]] < nums[i]:
+            # 这句代码的真实含义是：只要新来的数更大，就把后面所有比它小的都踢掉
                 q.pop() # 从右边删
-            q.append(i)                        # 把当前下标加入队列，这个是人为维护deque()的排序。
+            q.append(i)   # 把当前下标加入队列，这个是人为维护deque()的排序。
 
             # 当窗口形成之后，开始记录最大值
             if i >= k - 1:
-                res.append(nums[q[0]])         # 队头对应的数就是当前窗口最大值
+                res.append(nums[q[0]])   # 队头对应的数就是当前窗口最大值
 
-        return res                              # 返回结果
+        return res                           
 ```
 
 ---
