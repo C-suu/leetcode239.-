@@ -3,16 +3,33 @@
 ```python
 class Solution:
     def maxSlidingWindow(self, nums, k):
-        q = deque()
-        res = []
+        # 初始化一个双端队列，用于存放数组下标
+        q = deque() 
+        # 初始化结果列表，用于存放每个窗口的最大值
+        res = [] 
+        
+        # 遍历数组，i 为当前下标，num 为当前数值
         for i, num in enumerate(nums):
+            
+            # 【检查过期】如果队列不为空，且队首下标已经超出了滑动窗口的左边界
+            # i - k 是当前窗口左边界之前的那个位置，如果它等于队首，说明该元素已失效
             if q and i - k == q[0]:
-                q.popleft()
+                q.popleft() # 弹出队首无效下标
+            
+            # 【保持单调性】如果队列不为空，且当前数值大于或等于队尾下标对应的数值
+            # 这意味着队尾这些较小的数永远不可能成为后续窗口的最大值了
             while q and num >= nums[q[-1]]:
-                q.pop()
+                q.pop() # 弹出队尾这些较小的元素
+            
+            # 将当前元素的下标加入队尾，此时队列依然保持对应的数值从大到小排列
             q.append(i)
+            
+            # 【记录结果】当窗口长度达到 k 时（即当前下标 i 至少为 k-1）
+            # 队列的头部（q[0]）始终是当前窗口内最大值的下标
             if i >= k - 1:
-                res.append(nums[q[0]])
+                res.append(nums[q[0]]) # 将当前窗口的最大值加入结果集
+                
+        # 返回最终收集到的所有窗口最大值列表
         return res
 ```
 
